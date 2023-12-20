@@ -3,7 +3,7 @@ import http from "http";
 import bodyParser from "body-parser";
 import stockRoutes from "./routes/stockRoute.js";
 import { Server } from "socket.io";
-
+import cors from "cors";
 const app = express();
 const PORT = 5000;
 const server = http.createServer(app);
@@ -11,6 +11,14 @@ const io = new Server(server);
 
 //Middleware
 app.use(bodyParser.json());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    allowedHeaders: "Content-Type,Authorization",
+  })
+);
 app.use("/api", stockRoutes);
 
 //Socket.io
@@ -22,6 +30,7 @@ io.on("connection", (socket) => {
   });
 });
 app.set("io", io);
-app.listen(PORT, () =>
+
+server.listen(PORT, () =>
   console.log(`Server running on port: http://localhost:${PORT}`)
 );
