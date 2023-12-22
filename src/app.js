@@ -7,18 +7,16 @@ import cors from "cors";
 const app = express();
 const PORT = 5000;
 const server = http.createServer(app);
-const io = new Server(server);
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  },
+});
 
 //Middleware
 app.use(bodyParser.json());
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-    credentials: true,
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    allowedHeaders: "Content-Type,Authorization",
-  })
-);
+app.use(cors());
 app.use("/api", stockRoutes);
 
 //Socket.io

@@ -1,17 +1,17 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { getStock } from "@/services/api";
-import io from "socket.io-client";
+
 import { motion } from "framer-motion";
+import { io } from "socket.io-client";
 const StockTracker = () => {
   const [ticker, setTicker] = useState("");
   const [targetPrice, setTargetPrice] = useState("");
   const [data, setData] = useState(null);
   const [waiting, setWaiting] = useState("");
 
+  const socket = io("http://localhost:5000");
   useEffect(() => {
-    const socket = io("http://localhost:5000");
-
     socket.on("stockAlert", (data) => {
       setData(data);
     });
@@ -41,7 +41,7 @@ const StockTracker = () => {
         className="p-8 rounded-lg shadow-lg bg-gray-800 w-full max-w-md"
       >
         <h1 className="text-2xl font-bold mb-4">Stock Tracker</h1>
-        <form>
+        <form className="text-gray-800">
           <input
             type="text"
             placeholder="Enter ticker"
