@@ -47,7 +47,7 @@ const stockController = {
 
       const alertMessage = sendAlert(ticker, price, formattedTime);
 
-      req.app.get("io").emit("stockAlert", { ticker, alertMessage });
+      req.app.get("io").emit("stockAlert", { alert: alertMessage });
       return res.json({ currentPrice, alert: alertMessage });
     } catch (error) {
       console.log(error);
